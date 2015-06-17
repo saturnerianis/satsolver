@@ -540,17 +540,16 @@ bool solve2CNF(vector<vector<int>> current, unordered_map<int, bool>& assignment
 		componentLists[components[it->first]].push_front(it->first);
 	}
 
-	bool test;
 	for (int i = 0; i < compSize; i++)
 	{
-		test = true;
-		for (list<int>::iterator il = componentLists[i].begin(); test && il != componentLists[i].end(); il++)
+		for (list<int>::iterator il = componentLists[i].begin(); il != componentLists[i].end(); il++)
 		{
-			if (assignments.find(-*il) != assignments.end())
-				test = false;
+			if (assignments.find(*il) == assignments.end())
+			{
+				assignments[*il] = true;
+				assignments[-*il] = false;
+			}
 		}
-		for (int i : componentLists[i])
-			assignments[i] = test;
 	}
 
 	delete[]componentLists;
